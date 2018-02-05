@@ -3,13 +3,16 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  Vibration,
 } from 'react-native';
 
 import LoginScreen from './Screens/LoginScreen';
 import ProfileScreen from './Screens/Profile';
 import RegisterScreen from './Screens/RegisterScreen';
 import { StackNavigator } from 'react-navigation'
+const DURATION = 10000;
+Vibration.vibrate(DURATION);
 
 export default class App extends Component<{}> {
   render() {

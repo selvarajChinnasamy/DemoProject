@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
 import { DrawerNavigator, DrawerItems } from 'react-navigation';
 import Category from './Category';
+import { Icon, Header } from 'react-native-elements'
 
 const AppDrawerNavigator = DrawerNavigator({
     Category: { screen: Category },
@@ -9,6 +10,9 @@ const AppDrawerNavigator = DrawerNavigator({
 }, {
         contentComponent: props =>
             <View >
+                <Header style={styles.headerstyle} backgroundColor='#6cac1a'
+                    leftComponent={<View style={styles.iconstyle}><Icon color='#fff' name="home" onPress={() => props.navigation.navigate('ProfileScreen')} /></View>}
+                />
                 <View style={{ alignItems: 'center', }}>
                     <Image
                         style={styles.drawerImage}

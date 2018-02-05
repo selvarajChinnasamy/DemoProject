@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Text, Alert, StyleSheet, AsyncStorage, TextInput, Button } from 'react-native';
+import { View, Image, Text, Alert, StyleSheet, AsyncStorage, TextInput, Button, ToastAndroid, Keyboard } from 'react-native';
 
 class LoginScreen extends React.Component {
 
@@ -15,27 +15,20 @@ class LoginScreen extends React.Component {
     }
     _loadInitialState = async () => {
         var value = await AsyncStorage.getItem('user');
-        // if (value != null) {
-        //     this.props.navigation.navigate('ProfileScreen');
-        // }
+        if ((value != null) && (value != '')) {
+            this.props.navigation.navigate('ProfileScreen');
+        }
     }
     login = () => {
+        Keyboard.dismiss()
         if ((this.state.username != null) && (this.state.password != null)) {
-                fetch('https://0e0b0i6d2g.execute-api.ap-south-1.amazonaws.com/dev/user/login', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        username: this.state.username,
-                        password: this.state.password,
-                    })
-                }).then(response => {
-                    alert(JSON.stringify(response));
-                    let body = JSON.parse(response['_bodyText']);
-                    //alert(body['message']);
+
+            fetch('https://jsonplaceholder.typicode.com/posts/1')
+                .then(response => response.json())
+                .then(json => {
                     AsyncStorage.setItem('user', this.state.username);
+                    console.warn(this.state.username);
+                    ToastAndroid.show('user Id is:' + json.userId, ToastAndroid.SHORT);
                     this.props.navigation.navigate('ProfileScreen');
                 })
         } else {
@@ -76,7 +69,7 @@ class LoginScreen extends React.Component {
                         <Button
                             onPress={this.login}
                             title="Login"
-                            color="#4CAF50"
+                            color="#6cac1a"
                         />
                     </View>
                     <Text style={styles.register} onPress={this.register}>Register Now</Text>
@@ -89,7 +82,7 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#4CAF50',
+        backgroundColor: '#6cac1a',
         alignItems: 'center',
         justifyContent: 'center',
     },

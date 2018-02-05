@@ -66,7 +66,7 @@ class RegisterScreen extends React.Component {
                         <Button
                             onPress={this.register}
                             title="Register"
-                            color="#4CAF50"
+                            color="#6cac1a"
                         />
                     </View>
                 </View>
@@ -79,7 +79,7 @@ export default RegisterScreen;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#4CAF50',
+        backgroundColor: '#6cac1a',
         alignItems: 'center',
         justifyContent: 'center',
     },
