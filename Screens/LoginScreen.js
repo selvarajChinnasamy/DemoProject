@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Text, Alert, StyleSheet, AsyncStorage, TextInput, Button, ToastAndroid, Keyboard } from 'react-native';
+import { View, Image, ActivityIndicator, Text, Alert, StyleSheet, AsyncStorage, TextInput, Button, ToastAndroid, Keyboard } from 'react-native';
 var validate = require("validate.js");
 
 class LoginScreen extends React.Component {
@@ -7,8 +7,10 @@ class LoginScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            isLoading:false,
             username: null,
             password: null,
+            clickDisable:'none',
         }
     }
     componentDidMount() {
@@ -33,11 +35,11 @@ class LoginScreen extends React.Component {
                     return false;
                 }
             } else if (type == 'email') {
-                    if(validate.single(value, {presence: true, email: true})==undefined){
-                    }else {
-                         alert(field + ' is not a valid Email');
-                         return false;
-                    }
+                if (validate.single(value, { presence: true, email: true }) == undefined) {
+                } else {
+                    alert(field + ' is not a valid Email');
+                    return false;
+                }
             }
         } else {
             alert(field + ' is Required');
@@ -47,14 +49,15 @@ class LoginScreen extends React.Component {
     }
 
     login = () => {
-
         this.Validation('password', 'password');
         this.Validation('username', 'email');
         Keyboard.dismiss();
         if (this.Validation('password', 'password') && (this.Validation('username', 'email'))) {
+             this.setState({isLoading:true});
             fetch('https://jsonplaceholder.typicode.com/posts/1')
                 .then(response => response.json())
                 .then(json => {
+                     this.setState({isLoading:false});
                     AsyncStorage.setItem('user', this.state.username);
                     ToastAndroid.show('user Id is:' + json.userId, ToastAndroid.SHORT);
                     this.props.navigation.navigate('ProfileScreen');
@@ -94,14 +97,17 @@ class LoginScreen extends React.Component {
                         />
                     </View>
                     <View style={styles.loginButt}>
-                        <Button
+                        {this.state.isLoading == false ? <Button
                             onPress={this.login}
                             title="Login"
                             color="#6cac1a"
-                        />
+                        /> : null }
                     </View>
                     <Text style={styles.register} onPress={this.register}>Register Now</Text>
                 </View>
+                {this.state.isLoading > 0 &&
+                    <ActivityIndicator size="large" color="#00ff00" />
+                }
             </View>
         );
     }
