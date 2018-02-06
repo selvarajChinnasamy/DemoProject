@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, Text, Alert, StyleSheet, AsyncStorage, TextInput, Button, ToastAndroid, Keyboard } from 'react-native';
+var validate = require("validate.js");
 
 class LoginScreen extends React.Component {
 
@@ -32,15 +33,17 @@ class LoginScreen extends React.Component {
                     return false;
                 }
             } else if (type == 'email') {
-                 if(value.length<0){
-                alert(field + ' is not a valid Email');
-            }
+                    if(validate.single(value, {presence: true, email: true})==undefined){
+                    }else {
+                         alert(field + ' is not a valid Email');
+                         return false;
+                    }
             }
         } else {
             alert(field + ' is Required');
             return false;
         }
-          return true;
+        return true;
     }
 
     login = () => {

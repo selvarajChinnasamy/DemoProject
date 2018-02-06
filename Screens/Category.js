@@ -28,14 +28,14 @@ class Category extends React.Component {
   }
 
   logout = () => {
-    const value =  AsyncStorage.getItem('user');
+    const value = AsyncStorage.getItem('user');
     if (value != null) {
       AsyncStorage.removeItem('user');
       this.props.navigation.navigate('LoginScreen');
     }
   }
   someMethod = () => {
-     Keyboard.dismiss()
+    Keyboard.dismiss()
     alert('searching');
   }
   render() {
@@ -52,7 +52,7 @@ class Category extends React.Component {
           placeholder='Type Here...' />
         <ScrollView>
           <Tile
-            imageSrc={require('../assets/splash.jpg') }
+            imageSrc={require('../assets/splash.jpg')}
             title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores dolore exercitationem"
             featured
             caption="Some Caption Text"
