@@ -30,7 +30,6 @@ class Category extends React.Component {
   logout = () => {
     const value =  AsyncStorage.getItem('user');
     if (value != null) {
-      console.warn(value);
       AsyncStorage.removeItem('user');
       this.props.navigation.navigate('LoginScreen');
     }

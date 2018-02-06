@@ -16,7 +16,7 @@ class LoginScreen extends React.Component {
     _loadInitialState = async () => {
         var value = await AsyncStorage.getItem('user');
         if ((value != null) && (value != '')) {
-            // this.props.navigation.navigate('ProfileScreen');
+            this.props.navigation.navigate('ProfileScreen');
         }
     }
 
