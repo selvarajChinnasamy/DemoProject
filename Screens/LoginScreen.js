@@ -16,33 +16,58 @@ class LoginScreen extends React.Component {
     _loadInitialState = async () => {
         var value = await AsyncStorage.getItem('user');
         if ((value != null) && (value != '')) {
-            this.props.navigation.navigate('ProfileScreen');
+            // this.props.navigation.navigate('ProfileScreen');
         }
     }
-    login = () => {
-        Keyboard.dismiss()
-        if ((this.state.username != null) && (this.state.password != null)) {
 
+    Validation(field, type) {
+        var value = this.state[field];
+        if (value != null) {
+            if (type == 'password') {
+                if (value.length == 0) {
+                    alert(field + ' is required');
+                    return false;
+                } else if (value.length < 8) {
+                    alert(field + ' should be greater than 8 characters');
+                    return false;
+                }
+            } else if (type == 'email') {
+                 if(value.length<0){
+                alert(field + ' is not a valid Email');
+            }
+            }
+        } else {
+            alert(field + ' is Required');
+            return false;
+        }
+          return true;
+    }
+
+    login = () => {
+
+        this.Validation('password', 'password');
+        this.Validation('username', 'email');
+        Keyboard.dismiss();
+        if (this.Validation('password', 'password') && (this.Validation('username', 'email'))) {
             fetch('https://jsonplaceholder.typicode.com/posts/1')
                 .then(response => response.json())
                 .then(json => {
                     AsyncStorage.setItem('user', this.state.username);
-                    console.warn(this.state.username);
                     ToastAndroid.show('user Id is:' + json.userId, ToastAndroid.SHORT);
                     this.props.navigation.navigate('ProfileScreen');
                 })
-        } else {
-            Alert.alert(
-                'Invalid User',
-                'Try Login Again',
-                [
-                    { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') },
-                    { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-                    { text: 'OK', onPress: () => console.log('OK Pressed') },
-                ],
-                { cancelable: false }
-            )
         }
+
+        // Alert.alert(
+        //     'Invalid User',
+        //     'Try Login Again',
+        //     [
+        //         { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') },
+        //         { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+        //         { text: 'OK', onPress: () => console.log('OK Pressed') },
+        //     ],
+        //     { cancelable: false }
+        // )
     }
 
     register = () => {
